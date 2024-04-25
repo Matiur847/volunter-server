@@ -1,4 +1,7 @@
 const volunter = require("../models/volunterModel");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
 
 const registerVolunter = async (req, res) => {
   let { fullName, email, date, description, organize, img } = req.body;
@@ -37,4 +40,21 @@ const getActiveVolunter = async (req, res) => {
   }
 };
 
-module.exports = { registerVolunter, getActiveVolunter };
+const deleteActiveVolunter = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (ObjectId.isValid(id)) {
+      const deleteVolunter = await volunter.findByIdAndDelete(id);
+      res.send({
+        success: true,
+        message: "Volunter Deleted Successfully",
+      });
+    } else {
+      res.send("Error --------");
+    }
+  } catch (error) {
+    res.send(error);
+  }
+};
+
+module.exports = { registerVolunter, getActiveVolunter, deleteActiveVolunter };
