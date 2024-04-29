@@ -57,4 +57,21 @@ const deleteActiveVolunter = async (req, res) => {
   }
 };
 
-module.exports = { registerVolunter, getActiveVolunter, deleteActiveVolunter };
+getAllVolunterList = async (req, res) => {
+  try {
+    const AllVolunterList = await volunter.find({});
+    res.status(200).json({
+      success: true,
+      AllVolunterList,
+    });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
+module.exports = {
+  registerVolunter,
+  getActiveVolunter,
+  deleteActiveVolunter,
+  getAllVolunterList,
+};
