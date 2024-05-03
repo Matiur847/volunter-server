@@ -14,7 +14,14 @@ const volunterNewEvent = mongoose.Schema({
     required: true,
   },
   img: {
-    type: String,
+    public_id: {
+      type: String,
+      require: true,
+    },
+    url: {
+      type: String,
+      require: true,
+    },
   },
 });
 

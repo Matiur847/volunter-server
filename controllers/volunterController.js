@@ -3,7 +3,7 @@ const newVolunterEvent = require("../models/addVolunterModel");
 const {
   Types: { ObjectId },
 } = require("mongoose");
-const cloudinary = require("cloudinary")
+const cloudinary = require("cloudinary");
 
 const registerVolunter = async (req, res) => {
   let { fullName, email, date, description, organize, img } = req.body;
@@ -74,13 +74,20 @@ getAllVolunterList = async (req, res) => {
 // add new volunter event
 const addVolunter = async (req, res) => {
   try {
-    const { title, date, description, img } = req.body;
-    console.log(req.body);
+    const cloud = await cloudinary.v2.uploader.upload(req.body.img, {
+      folder: "volunterImg",
+      width: 150,
+      crop: "scale",
+    });
+    const { title, date, description } = req.body;
     const newEvent = newVolunterEvent({
       title: title,
       date: date,
       description: description,
-      img,
+      img: {
+        public_id: cloud.public_id,
+        url: cloud.secure_url,
+      },
     });
     await newEvent.save().then((event) => {
       res.send({
