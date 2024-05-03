@@ -1,7 +1,9 @@
 const volunter = require("../models/volunterModel");
+const newVolunterEvent = require("../models/addVolunterModel");
 const {
   Types: { ObjectId },
 } = require("mongoose");
+const cloudinary = require("cloudinary")
 
 const registerVolunter = async (req, res) => {
   let { fullName, email, date, description, organize, img } = req.body;
@@ -69,9 +71,32 @@ getAllVolunterList = async (req, res) => {
   }
 };
 
+// add new volunter event
+const addVolunter = async (req, res) => {
+  try {
+    const { title, date, description, img } = req.body;
+    console.log(req.body);
+    const newEvent = newVolunterEvent({
+      title: title,
+      date: date,
+      description: description,
+      img,
+    });
+    await newEvent.save().then((event) => {
+      res.send({
+        success: true,
+        newEvent,
+      });
+    });
+  } catch (error) {
+    res.send(error);
+  }
+};
+
 module.exports = {
   registerVolunter,
   getActiveVolunter,
   deleteActiveVolunter,
   getAllVolunterList,
+  addVolunter,
 };

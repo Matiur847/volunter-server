@@ -9,8 +9,6 @@ const volunterSchema = mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please enter your email"],
-    unique: false,
-    validate: [validator.isEmail, "Please enter your valid email"],
   },
   date: {
     type: String,
