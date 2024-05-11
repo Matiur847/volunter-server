@@ -118,7 +118,7 @@ const getAllUserFromFirebase = async (req, res) => {
       users: allUser,
     });
   } catch (error) {
-    res.send("error.message", error.message);
+    res.send("error.message", error);
   }
 };
 
