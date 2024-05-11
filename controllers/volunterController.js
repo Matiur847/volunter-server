@@ -101,6 +101,7 @@ const addVolunter = async (req, res) => {
   }
 };
 
+// get all users from firebase project
 let allUser = {};
 const getAllUserFromFirebase = async (req, res) => {
   try {
@@ -117,7 +118,27 @@ const getAllUserFromFirebase = async (req, res) => {
       users: allUser,
     });
   } catch (error) {
-    res.send('error.message------------------', error.message);
+    res.send("error.message", error.message);
+  }
+};
+
+// delete user from firebase
+const deleteUserFromFirebase = (req, res) => {
+  try {
+    const id = req.params;
+    console.log("id", id);
+    getAuth()
+      .deleteUser(id)
+      .then(() => console.log("User Deleted Successfullyl"))
+      .catch((error) => {
+        console.log("error.message", error.message);
+      });
+    res.status(200).json({
+      success: true,
+      message: "User Deleted Successfullyl",
+    });
+  } catch (error) {
+    res.send("error", error);
   }
 };
 
@@ -128,4 +149,5 @@ module.exports = {
   getAllVolunterList,
   addVolunter,
   getAllUserFromFirebase,
+  deleteUserFromFirebase,
 };

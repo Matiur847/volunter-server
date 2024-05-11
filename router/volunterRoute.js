@@ -6,6 +6,7 @@ const {
   getAllVolunterList,
   addVolunter,
   getAllUserFromFirebase,
+  deleteUserFromFirebase,
 } = require("../controllers/volunterController");
 // const addVolunter = require("../controllers/addVolunterEvent");
 const router = express.Router();
@@ -19,5 +20,6 @@ router.get("/allVolunterList", getAllVolunterList);
 router.post("/addNewEvent", addVolunter);
 
 router.get("/allUser", getAllUserFromFirebase);
+router.delete("/deleteUserFirebase", deleteUserFromFirebase);
 
 module.exports = router;
