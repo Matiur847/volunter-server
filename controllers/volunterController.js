@@ -4,6 +4,7 @@ const {
   Types: { ObjectId },
 } = require("mongoose");
 const cloudinary = require("cloudinary");
+const { getAuth } = require("firebase-admin/auth");
 
 const registerVolunter = async (req, res) => {
   let { fullName, email, date, description, organize, img } = req.body;
@@ -100,10 +101,31 @@ const addVolunter = async (req, res) => {
   }
 };
 
+let allUser = {};
+const getAllUserFromFirebase = async (req, res) => {
+  try {
+    await getAuth()
+      .listUsers()
+      .then((users) => {
+        allUser = users;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    res.status(200).json({
+      success: true,
+      users: allUser,
+    });
+  } catch (error) {
+    res.send('error.message------------------', error.message);
+  }
+};
+
 module.exports = {
   registerVolunter,
   getActiveVolunter,
   deleteActiveVolunter,
   getAllVolunterList,
   addVolunter,
+  getAllUserFromFirebase,
 };
